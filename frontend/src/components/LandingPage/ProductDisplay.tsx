@@ -1,6 +1,33 @@
 import calendar from '../../assets/calendar_logo.png';
+import {useGoogleLogin} from '@react-oauth/google'
+import { googleAuth } from '../../api';
+import {useNavigate} from 'react-router-dom'
 
 function ProductDisplay() {
+
+  const navigate = useNavigate();
+
+  const responseGoogle = async (response: any) => {
+    try {
+      if (response['code']) {
+        const result = await googleAuth(response['code']);
+        const {email, name, image} = result.data.user;
+        const token = result.data.token;
+        const obj = {email, name, image, token};
+        localStorage.setItem('user-info', JSON.stringify(obj));
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.log("Error while reuqesting ", error);
+    }
+  }
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: responseGoogle,
+    onError: responseGoogle, 
+    flow: 'auth-code',
+  })
+
   return (
     <div className="bg-secondary w-full h-[410px] mx-auto flex px-[75px] justify-between">
 
@@ -13,7 +40,7 @@ function ProductDisplay() {
           <br />
           tools designed for your busy life.
         </p>
-        <button className="bg-primary text-white rounded-[36px] flex items-center justify-center px-6 py-2 mt-[14px] text-[16px] w-[169px] h-[33.5px]">
+        <button onClick={googleLogin} className="bg-primary text-white rounded-[36px] flex items-center justify-center px-6 py-2 mt-[14px] text-[16px] w-[169px] h-[33.5px]">
           Get Started
         </button>
       </div>
