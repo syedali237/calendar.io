@@ -3,8 +3,6 @@ import NotFound from "./components/PageNotFound/NotFound";
 import Dashboard from "./screens/Dashboard";
 import {BrowserRouter, Route , Routes , Navigate} from 'react-router-dom'
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import dotenv from 'dotenv'
-dotenv.config()
 
 function App() {
 
@@ -14,7 +12,7 @@ function App() {
   }
 
   return (
-    <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID || ''}>
+    <GoogleOAuthProvider clientId="574182886829-3sfkn0frp5d76pc3mv3e9vh9srgaq757.apps.googleusercontent.com">
       <div className="font-poppins">
         <BrowserRouter>
           <Routes>
