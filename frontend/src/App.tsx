@@ -19,7 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/events" element={<Event />} />
+            {/* //below path is only for testing purpose will remove it */}
+            <Route path="/events" element={<Event />} /> 
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

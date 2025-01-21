@@ -1,6 +1,6 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import { googleAuth } from "../../api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 interface UserInfo {
@@ -51,10 +51,18 @@ function Navbar() {
   return (
     <div>
       <nav className="flex items-center py-[18px] text-[#000000] bg-[#ffffff] text-[16px]">
-        <p className="ml-[32px]">calendar.io</p>
+        <Link to="/" className="ml-[32px]">calendar.io</Link>
         <div className="flex flex-grow justify-end items-center mr-[34px]">
           {userInfo ? (
-            <div className="relative">
+            <div className="relative flex items-center">
+              <div className="mr-[40px]">
+                <Link
+                  to="/dashboard"
+                  className="ml-[39px] hover:text-primary transition-all"
+                >
+                  Dashboard
+                </Link>
+              </div>
               <div
                 className="flex items-center cursor-pointer"
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
