@@ -13,7 +13,8 @@ function ProductDisplay() {
         const result = await googleAuth(response['code']);
         const {email, name, image} = result.data.user;
         const token = result.data.token;
-        const obj = {email, name, image, token};
+        const googleAccessToken=  result.data.googleAccessToken;
+        const obj = {email, name, image, token, googleAccessToken};
         localStorage.setItem('user-info', JSON.stringify(obj));
         navigate('/dashboard');
       }
