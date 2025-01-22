@@ -38,6 +38,9 @@ calendar.io is designed to help you organize all your Google Calendar events in 
    ```
 4. Enable the Google Calendar API on your account and set up a Google OAuth2.0 Client ID.
 5. Add **Test User Emails** through which you want to access the app.
+   
+   <img width="1437" alt="Screenshot 2025-01-23 at 2 55 43 AM" src="https://github.com/user-attachments/assets/3c8f63d4-ce78-49a7-a007-d3b53816f1ff" />
+   
 6. Obtain the JSON credentials.
 
 ### Backend `.env` File Setup
@@ -73,6 +76,11 @@ After completing the setup, follow these steps to start the application:
    cd ../backend
    npm start
    ```
+
+---
+
+## Preview
+
 
 ---
 
