@@ -2,12 +2,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { googleAuth } from "../../api";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-interface UserInfo {
-  name: string;
-  email: string;
-  image: string;
-}
+import { UserInfo } from "../../interfaces/event.interface";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -34,6 +29,7 @@ function Navbar() {
     onSuccess: responseGoogle,
     onError: responseGoogle,
     flow: "auth-code",
+    scope: "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
   });
 
   useEffect(() => {
@@ -75,7 +71,7 @@ function Navbar() {
                 />
               </div>
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 bg-white border rounded shadow-lg">
+                <div className="absolute right-0 top-11 mt-2 bg-white border rounded shadow-lg">
                   <button
                     onClick={handleLogout}
                     className="block px-4 py-2 text-left w-full hover:bg-gray-100"

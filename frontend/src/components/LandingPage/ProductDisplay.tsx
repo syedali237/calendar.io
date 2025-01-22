@@ -27,6 +27,7 @@ function ProductDisplay() {
     onSuccess: responseGoogle,
     onError: responseGoogle, 
     flow: 'auth-code',
+    scope: "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
   })
 
   return (
