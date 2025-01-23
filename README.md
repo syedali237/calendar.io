@@ -94,6 +94,13 @@ After completing the setup, follow these steps to start the application:
 ## Preview
 
 
+https://github.com/user-attachments/assets/f94519c5-497a-4def-9742-3273212247ad
+
+
+https://github.com/user-attachments/assets/f954ffce-522f-47ac-a431-1e85fc781f51
+
+
+
 ---
 
 ## License
