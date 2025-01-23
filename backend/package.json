@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon --watch './**/*.ts' --exec 'npx ts-node' index.ts",
+    "start": "npx nodemon --watch './*/.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm index.ts' index.ts",
     "build": "npx tsc",
     "start:prod": "node dist/index.js"
   },
