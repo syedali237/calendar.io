@@ -10,7 +10,7 @@ calendar.io is designed to help you organize all your Google Calendar events in 
 - **Backend**: NodeJS, ExpressJS
 - **Database**: MongoDB
 - **Authentication**: Google OAuth2.0
-- **API**: Google Calendar API
+- **API**: Google Calendar API, Google Maps API, Google Gemini API
 
 ---
 
@@ -19,7 +19,7 @@ calendar.io is designed to help you organize all your Google Calendar events in 
 ### Prerequisites
 - npm (Node Package Manager)
 - git
-- MongoDB installed on your local system
+- MongoDB 
 
 ### Steps
 1. Clone this repository:
@@ -36,12 +36,19 @@ calendar.io is designed to help you organize all your Google Calendar events in 
    cd ../frontend
    npm install
    ```
-4. Enable the Google Calendar API on your account and set up a Google OAuth2.0 Client ID.
-5. Add **Test User Emails** through which you want to access the app.
-   
+4. Go to [Google Cloud Console](https://console.cloud.google.com/welcome?_gl=1*8elhwk*_up*MQ..&gclid=Cj0KCQiA7se8BhCAARIsAKnF3rxRruLlIj-zVcINt4KZKtZdwcguPILFjrVRJ7D1nqUXbZR7cJGaNNMaAl0wEALw_wcB&gclsrc=aw.ds&project=secret-410621).
+5. Enable the Google Calendar API on your account and set up a Google OAuth2.0 Client ID.
+6. Add **Test User Emails** through which you want to access the app.
+
+
+
    <img width="1437" alt="Screenshot 2025-01-23 at 2 55 43 AM" src="https://github.com/user-attachments/assets/3c8f63d4-ce78-49a7-a007-d3b53816f1ff" />
    
-6. Obtain the JSON credentials.
+
+7. Obtain the JSON credentials.
+8. Obtain the Google Maps API Key and Google Gemini API Key.
+9. If you want to test the Contact Us service then setup the [EmailJS](https://www.emailjs.com/) & obtain the credentials necessary. (optional)
+
 
 ### Backend `.env` File Setup
 Create a `.env` file in the `backend` directory with the following content:
@@ -59,6 +66,11 @@ REDIRECT_URI=http://localhost:8000/auth/google/callback
 Create a `.env` file in the `frontend` directory with the following content:
 ```
 VITE_GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
+VITE_SERVICE_EMAILJS=YOUR_SERVICE_ID_EMAILJS
+VITE_TEMPLATE_EMAILJS=YOUR_TEMPLATE_ID_EMAILJS
+VITE_PUBLIC_KEY=YOUR_PUBLIC_KEY_EMAILJS
+VITE_GEMINI_API_KEY=YOUR_GOOGLE_GEMINI_API_KEY
+VITE_GOOGLE_MAPS_API_KEY=YOUR_GOOGLE_MAPS_API_KEY
 ```
 
 ---

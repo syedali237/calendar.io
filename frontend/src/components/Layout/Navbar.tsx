@@ -3,11 +3,13 @@ import { googleAuth } from "../../api";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { UserInfo } from "../../interfaces/event.interface";
+import ContactModal from "../ContactUs/ContactModal";
 
 function Navbar() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const responseGoogle = async (response: any) => {
     try {
@@ -44,11 +46,25 @@ function Navbar() {
     navigate("/");
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+};
+
   return (
     <div>
-      <nav className="flex items-center py-[18px] text-[#000000] bg-[#ffffff] text-[16px]">
+      <nav className="flex items-center py-[18px] text-[#000000] bg-[#ffffff] text-[16px]" data-aos="fade-down"  data-aos-delay="50">
         <Link to="/" className="ml-[32px]">calendar.io</Link>
         <div className="flex flex-grow justify-end items-center mr-[34px]">
+        <button
+              onClick={() => openModal()}
+                className="ml-[32px] hover:text-primary transition-all"
+              >
+                Contact Us
+              </button>
           {userInfo ? (
             <div className="relative flex items-center">
               <div className="mr-[40px]">
@@ -83,18 +99,6 @@ function Navbar() {
             </div>
           ) : (
             <>
-              <a
-                href="#"
-                className="ml-[32px] hover:text-primary transition-all"
-              >
-                Features
-              </a>
-              <a
-                href="#"
-                className="ml-[39px] hover:text-primary transition-all"
-              >
-                Dashboard
-              </a>
               <button
                 onClick={googleLogin}
                 className="bg-primary text-[#ffffff] px-4 py-2 rounded-[36px] w-[90px] h-[33.1px] ml-[39px] flex items-center justify-center"
@@ -105,6 +109,8 @@ function Navbar() {
           )}
         </div>
       </nav>
+
+      <ContactModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 }

@@ -10,11 +10,8 @@ dotenv.config();
 const googleLogin = async (req: Request, res: Response): Promise<void> => {
   try {
     const code = req.query.code as string;
-    // console.log("Code received from frontend:", code);
-
     const tokens = await setToken(code);
     const accessToken = tokens.access_token!;
-    // console.log("Access Token received:", accessToken);
     const tokenInfo = await getTokenInfo(accessToken);
     console.log("Granted Scopes:", tokenInfo.scopes);
     const userRes = await axios.get(

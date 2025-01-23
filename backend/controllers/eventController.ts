@@ -24,8 +24,6 @@ export const getGoogleCalendarEvents = async (req: Request, res: Response): Prom
       singleEvents: true,
       orderBy: 'startTime',
     });
-
-    // console.log(events.data);
     const googleEvents = events.data.items;
 
     if (!googleEvents) {

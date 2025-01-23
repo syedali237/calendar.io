@@ -3,6 +3,10 @@ import NotFound from "./components/PageNotFound/NotFound";
 import Dashboard from "./screens/Dashboard";
 import {BrowserRouter, Route , Routes , Navigate} from 'react-router-dom'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import Aos from 'aos';
+import 'aos/dist/aos.css';
+
+Aos.init();
 
 function App() {
 

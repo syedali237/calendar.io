@@ -2,6 +2,7 @@ export interface EventModalProps {
     isOpen: boolean;
     onClose: () => void;
     event: {
+        id: string;
         summary: string;
         start: { dateTime: string };
         end: { dateTime: string };
@@ -29,4 +30,9 @@ export interface UserInfo {
     name: string;
     email: string;
     image: string;
+  }
+
+export interface ContactModalProps {
+    isOpen: boolean;
+    onClose: () => void;
   }

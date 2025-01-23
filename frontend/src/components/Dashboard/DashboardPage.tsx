@@ -1,25 +1,22 @@
 import { useEffect, useState } from "react";
 import searchlogo from "../../assets/search-interface-symbol.png";
-import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import EventNotifier from "./EventNotifier";
 import { ToastContainer } from "react-toastify";
 import EventModal from "./EventModal";
 import { Event } from "../../interfaces/event.interface";
+import { getEvents } from "../../api";
 
 function DashboardPage() {
     const [isDropdownOpen, setIsDropdownOpen] = useState<Boolean>(false);
     const [selectedOption, setSelectedOption] = useState("Choose filter");
-    const [selectedCategory, setSelectedCategory] = useState("Work");
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [events, setEvents] = useState<Event[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
-    console.log("Events:", events);
+    const [isLoading, setIsLoading] = useState<boolean>(true); 
 
     const handleOptionClick = (option: string) => {
         setSelectedOption(option);
@@ -56,22 +53,15 @@ function DashboardPage() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const data = localStorage.getItem("user-info");
-                const userData = data ? JSON.parse(data) : null;
-                const token = userData.googleAccessToken;
-                const response = await axios.get(
-                    "http://localhost:8000/calendar/events",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
+                setIsLoading(true); 
+                const response = await getEvents();
                 const fetchedEvents = response.data.events;
                 fetchedEvents.sort((a: Event, b: Event) => a.id.localeCompare(b.id));
                 setEvents(fetchedEvents);
             } catch (error) {
                 console.error("Error fetching events:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -100,8 +90,6 @@ function DashboardPage() {
         })
         : events;
 
-
-    // Further filter by selected date
     const filteredEvents = selectedDate
         ? filteredEventsBySearch.filter(
             (event) =>
@@ -109,14 +97,12 @@ function DashboardPage() {
                 selectedDate.toDateString()
         )
         : filteredEventsBySearch;
-    
+
     return (
         <div className="bg-secondary min-h-screen px-8 py-6">
             <ToastContainer />
             <EventNotifier events={events} />
-
-            {/* Search Bar */}
-            <div className="flex justify-center items-center mb-10">
+            <div className="flex justify-center items-center mb-10" data-aos="fade-up"  data-aos-delay="50">
                 <div className="relative w-full max-w-[600px]">
                     <img
                         src={searchlogo}
@@ -133,25 +119,17 @@ function DashboardPage() {
                 </div>
             </div>
 
-            {/* AI Suggestions and Priority Sorting */}
-            <div className="flex justify-between items-start mb-10">
+            <div className="flex justify-between items-start mb-10" data-aos="fade-up"  data-aos-delay="50">
                 <div>
                     <h2 className="text-[28px] font-bold text-black mb-4">
-                        AI Suggestions
+
                     </h2>
                     <div className="flex space-x-4">
-                        {["Work", "Personal", "Travel"].map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => setSelectedCategory(category)}
-                                className={`px-4 py-2 rounded-full font-medium text-sm border ${selectedCategory === category
-                                    ? "bg-primary text-white border-primary"
-                                    : "bg-transparent text-black border-black"
-                                    }`}
-                            >
-                                {category}
-                            </button>
-                        ))}
+                        <button
+                            className={`px-4 py-2 rounded-full font-medium text-sm border bg-transparent text-black border-black bg-yellow-300`}
+                        >
+                            Events within 3 days from now
+                        </button>
                     </div>
                 </div>
 
@@ -160,7 +138,6 @@ function DashboardPage() {
                         Priority Sorting
                     </h2>
                     <div className="flex space-x-4">
-                        {/* Date Picker */}
                         <div className="flex items-center space-x-4">
                             <DatePicker
                                 selected={selectedDate}
@@ -178,7 +155,6 @@ function DashboardPage() {
                             )}
                         </div>
 
-                        {/* Filter Dropdown */}
                         <div className="relative">
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -224,9 +200,8 @@ function DashboardPage() {
                 </div>
             </div>
 
-            {/* Table Section */}
             <div className="overflow-x-auto">
-                <table className="min-w-full border border-primary rounded-lg">
+                <table className="min-w-full border border-primary rounded-lg" data-aos="fade-up"  data-aos-delay="50">
                     <thead className="bg-primary text-white">
                         <tr>
                             <th className="px-6 py-3 text-left text-sm font-bold">S.No.</th>
@@ -237,37 +212,50 @@ function DashboardPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredEvents.map((event, index) => {
-                            const eventDate = new Date(event.start.dateTime);
-                            const today = new Date();
-                            const timeDiff = eventDate.getTime() - today.getTime();
-                            const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
-                            const isHighlighted = daysDiff > 0 && daysDiff <= 3;
+                        {isLoading ? (
+                            <tr>
+                                <td colSpan={5} className="text-center py-6">
+                                    Loading events...
+                                </td>
+                            </tr>
+                        ) : filteredEvents.length > 0 ? (
+                            filteredEvents.map((event, index) => {
+                                const eventDate = new Date(event.start.dateTime);
+                                const today = new Date();
+                                const timeDiff = eventDate.getTime() - today.getTime();
+                                const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+                                const isHighlighted = daysDiff > 0 && daysDiff <= 3;
 
-                            return (
-                                <tr
-                                    key={event.id}
-                                    className={`border-b border-primary ${isHighlighted ? "bg-yellow-300" : ""
-                                        }`}
-                                >
-                                    <td className="px-6 py-4 text-sm  ">{index + 1}</td>
-                                    <td className="px-6 py-4 text-sm text-black break-words max-w-xs">{event.summary}</td>
-                                    <td className="px-6 py-4 text-sm text-black break-words max-w-xs">
-                                        {new Date(event.start.dateTime).toLocaleDateString() || "N/A"}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-black break-words max-w-xs">
-                                        {event.location || "N/A"}
-                                    </td>
-                                    <td>
-                                        <button onClick={() => openModal(event)} className="px-4 py-2 rounded-full font-medium text-sm border bg-transparent text-black border-black flex justify-center hover:bg-primary hover:text-white hover:border-primary">
-                                            View Event
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                                return (
+                                    <tr
+                                        key={event.id}
+                                        className={`border-b border-primary ${isHighlighted ? "bg-yellow-300" : ""
+                                            }`}
+                                    >
+                                        <td className="px-6 py-4 text-sm">{index + 1}</td>
+                                        <td className="px-6 py-4 text-sm text-black break-words max-w-xs">{event.summary}</td>
+                                        <td className="px-6 py-4 text-sm text-black break-words max-w-xs">
+                                            {new Date(event.start.dateTime).toLocaleDateString() || "N/A"}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-black break-words max-w-xs">
+                                            {event.location || "N/A"}
+                                        </td>
+                                        <td>
+                                            <button onClick={() => openModal(event)} className="px-4 py-2 rounded-full font-medium text-sm border bg-transparent text-black border-black hover:bg-primary hover:text-white hover:border-primary">
+                                                View Event
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        ) : (
+                            <tr>
+                                <td colSpan={5} className="text-center py-6">
+                                    No events found.
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
-
                 </table>
             </div>
 
