@@ -110,6 +110,11 @@ https://github.com/user-attachments/assets/f954ffce-522f-47ac-a431-1e85fc781f51
 
 ---
 
+## Note:
+**The Google SSO functionality may not work on the deployed site as the OAuth, Calendar API Verification Process was not completed due to time constraints. Instead, I am using test users to run it locally.**
+
+---
+
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
