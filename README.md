@@ -48,6 +48,13 @@ calendar.io is designed to help you organize all your Google Calendar events in 
 7. Obtain the JSON credentials.
 8. Obtain the Google Maps API Key and Google Gemini API Key.
 9. If you want to test the Contact Us service then setup the [EmailJS](https://www.emailjs.com/) & obtain the credentials necessary. (optional)
+10. Since running locally, go to **frontend/src/api.ts** and comment out the other baseUrl line as :
+```
+const api = axios.create({
+    baseURL: "http://localhost:8000/",
+    // baseURL: "https://test-repo-umuy.onrender.com/",
+});
+```
 
 
 ### Backend `.env` File Setup
