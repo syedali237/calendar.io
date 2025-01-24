@@ -19,7 +19,8 @@ calendar.io is designed to help you organize all your Google Calendar events in 
 ### Prerequisites
 - npm (Node Package Manager)
 - git
-- MongoDB 
+- MongoDB
+- **As my google OAuth is not verified,on the deployed link it only lets test users log in, so if you want to use the deployed version of this app, then mail me your email at `syedaliulhasan19@gmail.com`, I will add that in the test users.**
 
 ### Steps
 1. Clone this repository:
