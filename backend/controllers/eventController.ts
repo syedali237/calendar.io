@@ -17,13 +17,13 @@ export const getGoogleCalendarEvents = async (req: Request, res: Response): Prom
     oauth2client.setCredentials({ access_token: token }); 
 
     const calendar = google.calendar({ version: 'v3', auth: oauth2client });
-
+    
     const events = await calendar.events.list({
       calendarId: 'primary',
-      timeMin: new Date().toISOString(),
       singleEvents: true,
       orderBy: 'startTime',
     });
+    
     const googleEvents = events.data.items;
 
     if (!googleEvents) {
